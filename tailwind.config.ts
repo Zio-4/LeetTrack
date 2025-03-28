@@ -2,15 +2,6 @@ import type { Config } from "tailwindcss"
 
 const config = {
   darkMode: ["class"],
-  theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
-  },
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -35,8 +26,8 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(36, 100%, 60%)", // Goldish orange
-          foreground: "hsl(0, 0%, 0%)", // Black
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -47,12 +38,12 @@ const config = {
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "hsl(0, 0%, 10%)", // Very dark gray
-          foreground: "hsl(0, 0%, 80%)", // Light gray
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "hsl(36, 100%, 60%)", // Goldish orange
-          foreground: "hsl(0, 0%, 0%)", // Black
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -61,6 +52,11 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        amber: {
+          500: "#F59E0B",
+          600: "#D97706",
+          700: "#B45309",
         },
       },
       borderRadius: {

@@ -1,373 +1,229 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, BarChart3, Database, Lock, Shield } from "lucide-react"
+import { ArrowRight, BarChart3, Code2, Database, LineChart, Lock, Sparkles } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
 export default function LandingPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-xl text-primary">
-            <BarChart3 className="h-6 w-6 text-primary" />
-            <span>LeetTrack</span>
-          </div>
-          <nav className="hidden md:flex gap-6">
-            <Link href="#features" className="text-sm font-medium text-primary hover:text-primary/80">
-              Features
-            </Link>
-            <Link href="#how-it-works" className="text-sm font-medium text-primary hover:text-primary/80">
-              How It Works
-            </Link>
-            <Link href="#faq" className="text-sm font-medium text-primary hover:text-primary/80">
-              FAQ
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Button
-              asChild
-              variant="outline"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-            >
-              <Link href="#try-now">Try Now</Link>
-            </Button>
+    <div className="min-h-screen bg-black text-white">
+      {/* Header */}
+      <header className="container mx-auto py-6 px-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Code2 className="h-8 w-8 text-amber-500" />
+          <span className="text-xl font-bold text-amber-500">LeetTrack</span>
+        </div>
+        <nav className="hidden md:flex items-center gap-6">
+          <Link href="#features" className="text-gray-300 hover:text-white transition-colors">
+            Features
+          </Link>
+          <Link href="#dashboard" className="text-gray-300 hover:text-white transition-colors">
+            Dashboard
+          </Link>
+          <Link href="#insights" className="text-gray-300 hover:text-white transition-colors">
+            Insights
+          </Link>
+          <Button className="bg-amber-500 hover:bg-amber-600 text-black">Get Started</Button>
+        </nav>
+        <Button variant="outline" className="md:hidden border-amber-500 text-amber-500 hover:bg-amber-500/10">
+          Menu
+        </Button>
+      </header>
+
+      {/* Hero Section */}
+      <section className="container mx-auto py-20 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-amber-500 mb-6">Track Your LeetCode Progress, Locally LT</h1>
+          <p className="text-xl text-gray-300 mb-10">
+            A simple, intuitive way to track your coding practice without the need for accounts or logins. Your data
+            stays on your device, always.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button className="bg-amber-500 hover:bg-amber-600 text-black">Start Tracking Now</Button>
+            <Button className="bg-amber-500 hover:bg-amber-600 text-black">Learn More</Button>
           </div>
         </div>
-      </header>
-      <main className="flex-1">
-        <section className="py-12 md:py-24 lg:py-32 xl:py-48">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-primary">
-                    Track Your LeetCode Progress, <span className="text-primary">Locally</span>
-                  </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    A simple, intuitive dashboard to track your LeetCode journey without any account or authentication.
-                    Your data stays on your device.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button asChild size="lg">
-                    <Link href="#try-now">
-                      Get Started <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" size="lg">
-                    <Link href="#features">Learn More</Link>
-                  </Button>
-                </div>
-              </div>
-              <Image
-                src="/placeholder.svg?height=550&width=550"
-                width={550}
-                height={550}
-                alt="LeetTrack Dashboard Preview"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
-              />
-            </div>
-          </div>
-        </section>
+      </section>
 
-        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-background">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground">
-                  Key Features
-                </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-primary">
-                  Everything you need to excel
-                </h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  LeetTrack provides all the tools you need to track your progress and improve your problem-solving
-                  skills.
-                </p>
-              </div>
+      {/* Features Section */}
+      <section id="features" className="container mx-auto py-20 px-4 border-t border-gray-800">
+        <h2 className="text-3xl md:text-4xl font-bold text-amber-500 text-center mb-16">Why Choose LeetTrack?</h2>
+        <div className="grid md:grid-cols-3 gap-10">
+          <div className="bg-gray-900 p-8 rounded-lg">
+            <div className="bg-amber-500/10 p-3 rounded-full w-fit mb-6">
+              <Database className="h-6 w-6 text-amber-500" />
             </div>
-            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 md:grid-cols-3 md:gap-12">
-              <div className="flex flex-col items-center space-y-4 rounded-lg border border-border bg-black/40 p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                  <Database className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold text-primary">Local-First</h3>
-                <p className="text-center text-gray-300">
-                  No account or authentication required. Your data stays on your device, giving you complete privacy and
-                  control.
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-4 rounded-lg border border-border bg-black/40 p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                  <BarChart3 className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold text-primary">Intuitive Dashboard</h3>
-                <p className="text-center text-gray-300">
-                  Clean, simple, and intuitive interface to track your progress, completed problems, and success rates.
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-4 rounded-lg border border-border bg-black/40 p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                  <Shield className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold text-primary">Data-Driven Insights</h3>
-                <p className="text-center text-gray-300">
-                  Get personalized insights and recommendations based on your performance to guide your learning
-                  journey.
-                </p>
-              </div>
-            </div>
+            <h3 className="text-xl font-bold text-amber-500 mb-3">Local First</h3>
+            <p className="text-gray-300">
+              Your data never leaves your device. No accounts, no authentication, no servers. Just you and your
+              progress.
+            </p>
           </div>
-        </section>
-
-        <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-primary">How It Works</h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  LeetTrack makes it easy to monitor your progress and improve your skills.
-                </p>
-              </div>
+          <div className="bg-gray-900 p-8 rounded-lg">
+            <div className="bg-amber-500/10 p-3 rounded-full w-fit mb-6">
+              <BarChart3 className="h-6 w-6 text-amber-500" />
             </div>
-            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-              <Image
-                src="/placeholder.svg?height=550&width=550"
-                width={550}
-                height={550}
-                alt="LeetTrack Dashboard"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full"
-              />
-              <div className="flex flex-col justify-center space-y-4">
-                <ul className="grid gap-6">
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold text-primary">1. Log Your Solutions</h3>
-                      <p className="text-muted-foreground">
-                        Simply add the problems you've solved, along with difficulty, category, and your solution
-                        approach.
-                      </p>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold text-primary">2. Track Your Progress</h3>
-                      <p className="text-muted-foreground">
-                        Visualize your progress over time with intuitive charts and statistics.
-                      </p>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold text-primary">3. Get Insights</h3>
-                      <p className="text-muted-foreground">
-                        Receive personalized recommendations on what to focus on next based on your performance
-                        patterns.
-                      </p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <h3 className="text-xl font-bold text-amber-500 mb-3">Intuitive Dashboard</h3>
+            <p className="text-gray-300">
+              Clean, simple, and easy to use. Track your progress with beautiful visualizations and clear metrics.
+            </p>
           </div>
-        </section>
+          <div className="bg-gray-900 p-8 rounded-lg">
+            <div className="bg-amber-500/10 p-3 rounded-full w-fit mb-6">
+              <Sparkles className="h-6 w-6 text-amber-500" />
+            </div>
+            <h3 className="text-xl font-bold text-amber-500 mb-3">Smart Insights</h3>
+            <p className="text-gray-300">
+              Get personalized recommendations and insights based on your performance to guide your learning journey.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        <section id="privacy" className="w-full py-12 md:py-24 lg:py-32 bg-background">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-10 md:grid-cols-2 md:gap-16">
-              <div>
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
-                  <Lock className="h-10 w-10 text-primary" />
+      {/* Dashboard Preview */}
+      <section id="dashboard" className="py-20 bg-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-amber-500 mb-6">A Dashboard That Makes Sense</h2>
+            <p className="text-gray-300 text-lg">
+              Visualize your progress, identify patterns, and focus on what matters most in your coding journey.
+            </p>
+          </div>
+          <div className="relative mx-auto max-w-5xl rounded-xl overflow-hidden shadow-2xl border border-gray-800">
+            <Image
+              src="https://picsum.photos/id/180/1200/600"
+              width={1200}
+              height={600}
+              alt="Dashboard Preview"
+              className="w-full"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Insights Section */}
+      <section id="insights" className="container mx-auto py-20 px-4">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-amber-500 mb-6">Data-Driven Insights</h2>
+            <p className="text-gray-300 text-lg mb-8">
+              LeetTrack analyzes your performance to provide actionable insights that help you improve faster.
+            </p>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <div className="bg-amber-500/10 p-1.5 rounded-full mt-0.5">
+                  <ArrowRight className="h-4 w-4 text-amber-500" />
                 </div>
-                <h2 className="mt-4 text-3xl font-bold text-primary">Your Data Stays With You</h2>
-                <p className="mt-2 text-muted-foreground md:text-xl">
-                  LeetTrack is built with privacy in mind. All your data is stored locally on your device, and we never
-                  collect or transmit your personal information.
-                </p>
-                <ul className="mt-6 grid gap-2">
-                  <li className="flex items-center gap-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-4 w-4 text-primary"
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </div>
-                    <span>No account required</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-4 w-4 text-primary"
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </div>
-                    <span>No data collection</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-4 w-4 text-primary"
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </div>
-                    <span>Works offline</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="flex items-center justify-center">
+                <p className="text-gray-300">Identify your strengths and weaknesses across problem categories</p>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="bg-amber-500/10 p-1.5 rounded-full mt-0.5">
+                  <ArrowRight className="h-4 w-4 text-amber-500" />
+                </div>
+                <p className="text-gray-300">Track your speed and efficiency improvements over time</p>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="bg-amber-500/10 p-1.5 rounded-full mt-0.5">
+                  <ArrowRight className="h-4 w-4 text-amber-500" />
+                </div>
+                <p className="text-gray-300">Get personalized recommendations for what to practice next</p>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="bg-amber-500/10 p-1.5 rounded-full mt-0.5">
+                  <ArrowRight className="h-4 w-4 text-amber-500" />
+                </div>
+                <p className="text-gray-300">Visualize your learning patterns to optimize your study schedule</p>
+              </li>
+            </ul>
+          </div>
+          <div className="relative">
+            <div className="absolute -inset-4 bg-amber-500/20 blur-xl rounded-full opacity-30"></div>
+            <div className="relative bg-gray-900 p-6 rounded-xl border border-gray-800">
+              <LineChart className="h-12 w-12 text-amber-500 mb-6" />
+              <h3 className="text-2xl font-bold text-amber-500 mb-4">Your Progress Over Time</h3>
+              <div className="h-64 w-full bg-gray-800 rounded-lg mb-6 overflow-hidden">
                 <Image
-                  src="/placeholder.svg?height=400&width=400"
-                  width={400}
-                  height={400}
-                  alt="Privacy Illustration"
-                  className="rounded-xl object-cover"
+                  src="https://picsum.photos/id/370/512/256"
+                  width={512}
+                  height={256}
+                  alt="Progress Chart"
+                  className="w-full h-full object-cover"
                 />
               </div>
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <p className="text-2xl font-bold text-amber-500">87</p>
+                  <p className="text-gray-400 text-sm">Problems Solved</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-amber-500">64%</p>
+                  <p className="text-gray-400 text-sm">Success Rate</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-amber-500">12</p>
+                  <p className="text-gray-400 text-sm">Day Streak</p>
+                </div>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section id="faq" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-primary">
-                  Frequently Asked Questions
-                </h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Everything you need to know about LeetTrack.
-                </p>
-              </div>
-            </div>
-            <div className="mx-auto grid max-w-5xl gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-              <div className="space-y-4">
-                <div className="rounded-lg border border-border bg-black/40 p-4">
-                  <h3 className="text-lg font-bold text-primary">Is LeetTrack completely free?</h3>
-                  <p className="mt-1 text-gray-300">
-                    Yes, LeetTrack is completely free to use with no hidden costs or premium features.
-                  </p>
-                </div>
-                <div className="rounded-lg border border-border bg-black/40 p-4">
-                  <h3 className="text-lg font-bold text-primary">Can I export my data?</h3>
-                  <p className="mt-1 text-gray-300">
-                    Yes, you can export all your data in JSON format for backup or to transfer to another device.
-                  </p>
-                </div>
-                <div className="rounded-lg border border-border bg-black/40 p-4">
-                  <h3 className="text-lg font-bold text-primary">Does it work offline?</h3>
-                  <p className="mt-1 text-gray-300">
-                    Yes, once loaded, LeetTrack works completely offline as all data is stored locally.
-                  </p>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="rounded-lg border border-border bg-black/40 p-4">
-                  <h3 className="text-lg font-bold text-primary">What happens if I clear my browser data?</h3>
-                  <p className="mt-1 text-gray-300">
-                    Your LeetTrack data will be lost if you clear your browser's local storage. We recommend exporting
-                    your data regularly.
-                  </p>
-                </div>
-                <div className="rounded-lg border border-border bg-black/40 p-4">
-                  <h3 className="text-lg font-bold text-primary">Can I sync across devices?</h3>
-                  <p className="mt-1 text-gray-300">
-                    Currently, LeetTrack doesn't support automatic syncing. You can manually export and import your data
-                    between devices.
-                  </p>
-                </div>
-                <div className="rounded-lg border border-border bg-black/40 p-4">
-                  <h3 className="text-lg font-bold text-primary">Is LeetTrack affiliated with LeetCode?</h3>
-                  <p className="mt-1 text-gray-300">
-                    No, LeetTrack is an independent tool and is not affiliated with or endorsed by LeetCode.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="try-now" className="w-full py-12 md:py-24 lg:py-32 bg-black text-primary">
-          <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
-            <div className="space-y-3">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary">
-                Ready to improve your LeetCode skills?
-              </h2>
-              <p className="mx-auto max-w-[600px] text-gray-300 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Start tracking your progress today and get insights to guide your learning journey.
-              </p>
-            </div>
-            <div className="mx-auto flex flex-col gap-2 min-[400px]:flex-row">
-              <Button size="lg" variant="default" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                <Link href="#">Try LeetTrack Now</Link>
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-transparent text-primary border-primary hover:bg-primary/10"
-              >
-                <Link href="https://github.com/leettrack/app" target="_blank" rel="noopener noreferrer">
-                  View on GitHub
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-      </main>
-      <footer className="w-full border-t border-border bg-background py-6">
-        <div className="container flex flex-col items-center justify-between gap-4 md:flex-row md:gap-0">
-          <div className="flex items-center gap-2 font-semibold text-primary">
-            <BarChart3 className="h-5 w-5 text-primary" />
-            <span>LeetTrack</span>
-          </div>
-          <p className="text-center text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} LeetTrack. All rights reserved.
+      {/* Privacy Section */}
+      <section className="bg-gray-900 py-20">
+        <div className="container mx-auto px-4 max-w-3xl text-center">
+          <Lock className="h-12 w-12 text-amber-500 mx-auto mb-6" />
+          <h2 className="text-3xl md:text-4xl font-bold text-amber-500 mb-6">Your Data, Your Control</h2>
+          <p className="text-gray-300 text-lg mb-10">
+            We believe your coding progress should be private. That's why LeetTrack stores everything locally on your
+            device. No accounts, no tracking, no data collection. Just a tool that respects your privacy.
           </p>
-          <div className="flex gap-4">
-            <Link href="#" className="text-sm text-primary hover:text-primary/80">
-              Privacy
-            </Link>
-            <Link href="#" className="text-sm text-primary hover:text-primary/80">
-              Terms
-            </Link>
-            <Link
-              href="https://github.com/leettrack/app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-primary hover:text-primary/80"
-            >
-              GitHub
-            </Link>
+          <Button className="bg-amber-500 hover:bg-amber-600 text-black">Get Started Now</Button>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="container mx-auto py-20 px-4">
+        <div className="bg-gradient-to-r from-amber-500/20 to-amber-700/20 rounded-2xl p-10 text-center max-w-4xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-amber-500 mb-6">
+            Ready to Level Up Your LeetCode Practice?
+          </h2>
+          <p className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
+            Join thousands of developers who are tracking their progress and improving their skills with LeetTrack.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button className="bg-amber-500 hover:bg-amber-600 text-black">Start Tracking Now</Button>
+            <Button className="bg-amber-500 hover:bg-amber-600 text-black">View Demo</Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-800 py-12">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center gap-2 mb-6 md:mb-0">
+              <Code2 className="h-6 w-6 text-amber-500" />
+              <span className="text-lg font-bold text-amber-500">LeetTrack</span>
+            </div>
+            <div className="flex flex-col md:flex-row gap-6 md:gap-12 text-center md:text-left">
+              <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                Privacy
+              </Link>
+              <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                Terms
+              </Link>
+              <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                GitHub
+              </Link>
+              <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                Contact
+              </Link>
+            </div>
+          </div>
+          <div className="mt-8 text-center text-gray-500 text-sm">
+            &copy; {new Date().getFullYear()} LeetTrack. All rights reserved. Not affiliated with LeetCode.
           </div>
         </div>
       </footer>

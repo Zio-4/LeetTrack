@@ -14,18 +14,20 @@ export default function LandingPage() {
           <span className="text-xl font-bold text-amber-500">LeetTrack</span>
         </div>
         <nav className="hidden md:flex items-center gap-6">
-          <Link href="#features" className="text-gray-300 hover:text-white transition-colors">
+          <Link href="#features" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
             Features
           </Link>
-          <Link href="#dashboard" className="text-gray-300 hover:text-white transition-colors">
+          <Link href="#dashboard" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
             Dashboard
           </Link>
-          <Link href="#insights" className="text-gray-300 hover:text-white transition-colors">
+          <Link href="#insights" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
             Insights
           </Link>
-          <Button className="bg-amber-500 hover:bg-amber-600 text-black">Get Started</Button>
+          <Link href="/sign-in" className="cursor-pointer">
+            <Button className="bg-amber-500 hover:bg-amber-600 text-black">Get Started</Button>
+          </Link>
         </nav>
-        <Button variant="outline" className="md:hidden border-amber-500 text-amber-500 hover:bg-amber-500/10">
+        <Button variant="outline" className="md:hidden border-amber-500 text-amber-500 hover:bg-amber-500/10 cursor-pointer">
           Menu
         </Button>
       </header>
@@ -33,14 +35,16 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="container mx-auto py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-amber-500 mb-6">Track Your LeetCode Progress, Locally LT</h1>
+          <h1 className="text-4xl md:text-6xl font-bold text-amber-500 mb-6">Track Your LeetCode Progress, Locally</h1>
           <p className="text-xl text-gray-300 mb-10">
             A simple, intuitive way to track your coding practice without the need for accounts or logins. Your data
             stays on your device, always.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-amber-500 hover:bg-amber-600 text-black">Start Tracking Now</Button>
-            <Button className="bg-amber-500 hover:bg-amber-600 text-black">Learn More</Button>
+            <Link href="/sign-in" className="cursor-pointer">
+              <Button className="bg-amber-500 hover:bg-amber-600 text-black">Start Tracking Now</Button>
+            </Link>
+            <Button className="bg-amber-500 hover:bg-amber-600 text-black cursor-pointer">Learn More</Button>
           </div>
         </div>
       </section>
@@ -179,7 +183,9 @@ export default function LandingPage() {
             We believe your coding progress should be private. That's why LeetTrack stores everything locally on your
             device. No accounts, no tracking, no data collection. Just a tool that respects your privacy.
           </p>
-          <Button className="bg-amber-500 hover:bg-amber-600 text-black">Get Started Now</Button>
+          <Link href="/sign-in" className="cursor-pointer">
+            <Button className="bg-amber-500 hover:bg-amber-600 text-black">Get Started Now</Button>
+          </Link>
         </div>
       </section>
 
@@ -193,8 +199,10 @@ export default function LandingPage() {
             Join thousands of developers who are tracking their progress and improving their skills with LeetTrack.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-amber-500 hover:bg-amber-600 text-black">Start Tracking Now</Button>
-            <Button className="bg-amber-500 hover:bg-amber-600 text-black">View Demo</Button>
+            <Link href="/sign-in" className="cursor-pointer">
+              <Button className="bg-amber-500 hover:bg-amber-600 text-black">Start Tracking Now</Button>
+            </Link>
+            <Button className="bg-amber-500 hover:bg-amber-600 text-black cursor-pointer">View Demo</Button>
           </div>
         </div>
       </section>
@@ -208,17 +216,17 @@ export default function LandingPage() {
               <span className="text-lg font-bold text-amber-500">LeetTrack</span>
             </div>
             <div className="flex flex-col md:flex-row gap-6 md:gap-12 text-center md:text-left">
-              <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+              <Link href="#" className="text-gray-400 hover:text-white transition-colors cursor-pointer">
                 Privacy
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+              <Link href="#" className="text-gray-400 hover:text-white transition-colors cursor-pointer">
                 Terms
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+              <Link href="https://github.com/Zio-4/LeetTrack" className="text-gray-400 hover:text-white transition-colors cursor-pointer">
                 GitHub
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                Contact
+              <Link href="https://x.com/hey_zio" className="text-gray-400 hover:text-white transition-colors cursor-pointer">
+                X
               </Link>
             </div>
           </div>

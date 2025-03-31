@@ -7,30 +7,6 @@ import { Button } from "@/components/ui/button"
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <header className="container mx-auto py-6 px-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Code2 className="h-8 w-8 text-amber-500" />
-          <span className="text-xl font-bold text-amber-500">LeetTrack</span>
-        </div>
-        <nav className="hidden md:flex items-center gap-6">
-          <Link href="#features" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-            Features
-          </Link>
-          <Link href="#dashboard" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-            Dashboard
-          </Link>
-          <Link href="#insights" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-            Insights
-          </Link>
-          <Link href="/sign-in" className="cursor-pointer">
-            <Button className="bg-amber-500 hover:bg-amber-600 text-black">Get Started</Button>
-          </Link>
-        </nav>
-        <Button variant="outline" className="md:hidden border-amber-500 text-amber-500 hover:bg-amber-500/10 cursor-pointer">
-          Menu
-        </Button>
-      </header>
 
       {/* Hero Section */}
       <section className="container mx-auto py-20 px-4">
@@ -207,34 +183,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-800 py-12">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center gap-2 mb-6 md:mb-0">
-              <Code2 className="h-6 w-6 text-amber-500" />
-              <span className="text-lg font-bold text-amber-500">LeetTrack</span>
-            </div>
-            <div className="flex flex-col md:flex-row gap-6 md:gap-12 text-center md:text-left">
-              <Link href="#" className="text-gray-400 hover:text-white transition-colors cursor-pointer">
-                Privacy
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white transition-colors cursor-pointer">
-                Terms
-              </Link>
-              <Link href="https://github.com/Zio-4/LeetTrack" className="text-gray-400 hover:text-white transition-colors cursor-pointer">
-                GitHub
-              </Link>
-              <Link href="https://x.com/hey_zio" className="text-gray-400 hover:text-white transition-colors cursor-pointer">
-                X
-              </Link>
-            </div>
-          </div>
-          <div className="mt-8 text-center text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} LeetTrack. All rights reserved. Not affiliated with LeetCode.
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }

@@ -1,21 +1,19 @@
 "use client"
 
 import type React from "react"
-import { LeetCode } from "leetcode-query";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CodeIcon } from "lucide-react"
 
+
 export default function SignIn() {
   const [username, setUsername] = useState("")
-  const [error, setError] = useState("")
+  const [sessionCookie, setSessionCookie] = useState("")
+  const [signInError, setError] = useState("")
   const router = useRouter()
 
-  if (typeof window !== "undefined") {
-    const leetcode = new LeetCode();
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,9 +23,7 @@ export default function SignIn() {
       return
     }
 
-    // const user = await leetcode.user(username);
 
-    // console.log({ user });
 
     return;
     router.push("/dashboard")
@@ -69,7 +65,26 @@ export default function SignIn() {
               style={{ backgroundColor: "#000", color: "#D1D5DC", borderColor: "#2D3748" }}
               placeholder="Enter your LeetCode username"
             />
-            {error && <p className="text-sm text-red-500">{error}</p>}
+            {signInError && <p className="text-sm text-red-500">{signInError}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="sessionCookie" className="block text-sm font-medium" style={{ color: "#D1D5DC" }}>
+              Leetcode session cookie
+            </label>
+            <Input
+              id="sessionCookie"
+              name="sessionCookie"
+              type="text"
+              value={sessionCookie}
+              onChange={(e) => setSessionCookie(e.target.value)}
+              className="w-full rounded-md border-gray-700 bg-gray-800 text-white focus:border-orange-500 focus:ring-orange-500"
+              style={{ backgroundColor: "#000", color: "#D1D5DC", borderColor: "#2D3748" }}
+              placeholder="Enter your LeetCode session cookie (optional)"
+            />
+            <p className="text-xs" style={{ color: "#9CA3AF" }}>
+              This is needed for more advanced data but not required.
+            </p>
           </div>
 
           <Button

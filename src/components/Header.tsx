@@ -17,9 +17,6 @@ export default function Header() {
           <Link href="/#features" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
             Features
           </Link>
-          <Link href="/#dashboard" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-            Dashboard
-          </Link>
           <Link href="/#insights" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
             Insights
           </Link>

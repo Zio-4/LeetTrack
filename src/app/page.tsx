@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, BarChart3, Code2, Database, LineChart, Lock, Sparkles } from "lucide-react"
+import { ArrowRight, BarChart3, Code2, Database, LineChart, Lock, Sparkles, Construction } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
@@ -11,6 +11,14 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="container mx-auto py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
+          <div className="mb-8 p-3 rounded-lg bg-gradient-to-r from-amber-500/10 to-amber-600/10 border border-amber-500/20 animate-pulse shadow-[0_0_15px_rgba(253,154,0,0.3)] relative">
+            <div className="absolute -inset-0.5 bg-amber-500/20 blur-md rounded-lg opacity-75"></div>
+            <div className="relative flex items-center justify-center gap-2">
+              <Construction className="h-5 w-5 text-amber-500" />
+              <p className="text-amber-400 font-semibold">Currently under construction - check back soon!</p>
+              <Construction className="h-5 w-5 text-amber-500" />
+            </div>
+          </div>
           <h1 className="text-4xl md:text-6xl font-bold text-amber-500 mb-6">Track Your LeetCode Progress, Locally</h1>
           <p className="text-xl text-gray-300 mb-10">
             A simple, intuitive way to track your coding practice without the need for accounts or logins. Your data
@@ -71,7 +79,7 @@ export default function LandingPage() {
           </div>
           <div className="relative mx-auto max-w-5xl rounded-xl overflow-hidden shadow-2xl border border-gray-800">
             <Image
-              src="https://picsum.photos/id/180/1200/600"
+              src="/dashboard-example.png"
               width={1200}
               height={600}
               alt="Dashboard Preview"
@@ -124,7 +132,7 @@ export default function LandingPage() {
               <h3 className="text-2xl font-bold text-amber-500 mb-4">Your Progress Over Time</h3>
               <div className="h-64 w-full bg-gray-800 rounded-lg mb-6 overflow-hidden">
                 <Image
-                  src="https://picsum.photos/id/370/512/256"
+                  src="/progress-example.png"
                   width={512}
                   height={256}
                   alt="Progress Chart"

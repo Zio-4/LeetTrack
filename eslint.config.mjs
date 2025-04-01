@@ -28,7 +28,8 @@ const eslintConfig = [
       "no-empty": "warn",
       "no-extra-semi": "warn",
       "no-irregular-whitespace": "warn",
-      "no-unreachable": "warn"
+      "no-unreachable": "warn",
+      "@typescript-eslint/no-explicit-any": "warn"
     },
     // Only apply these rules to specific file types
     files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],

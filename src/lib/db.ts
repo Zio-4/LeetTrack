@@ -1,6 +1,9 @@
 // Database configuration
 import { openDB, DBSchema, IDBPDatabase, deleteDB } from 'idb';
 
+// Import IDBValidKey from the DOM lib
+type IDBValidKey = string | number | Date | ArrayBufferView | ArrayBuffer | IDBValidKey[];
+
 const DB_NAME = 'leetTrackDB';
 const DB_VERSION = 1;
 
@@ -150,7 +153,7 @@ export const getAllFromIndex = async <T>(
   key: string | number
 ): Promise<T[]> => {
   const db = await getDB();
-  // @ts-ignore -- Why is indexName type of Never?
+  // @ts-expect-error -- Why is indexName type of Never?
   return db.getAllFromIndex(storeName as any, indexName, key);
 };
 

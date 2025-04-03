@@ -1,10 +1,25 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { ArrowRight, BarChart3, Code2, Database, LineChart, Lock, Sparkles, Construction } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
 export default function LandingPage() {
+  const router = useRouter()
+  
+  useEffect(() => {
+    // Check if user data exists in localStorage
+    const userData = localStorage.getItem("leetTrackUser")
+    
+    if (userData) {
+      // User is already logged in, redirect to dashboard
+      router.push("/dashboard")
+    }
+  }, [])
   return (
     <div className="min-h-screen bg-black text-white">
 

@@ -14,11 +14,11 @@ export default function Header() {
           </Link>
         </div>
         <nav className="hidden md:flex items-center gap-6">
-          <Link href="/#features" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
+          <Link href="/features" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
             Features
           </Link>
-          <Link href="/#insights" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-            Insights
+          <Link href="/about" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
+            About
           </Link>
           <Link href="/sign-in" className="cursor-pointer">
             <Button className="bg-amber-500 hover:bg-amber-600 text-black">Get Started</Button>
@@ -47,7 +47,7 @@ export default function Header() {
                 <nav className="grid gap-6 py-6">
                   <SheetClose asChild>
                     <Link
-                      href="/#features"
+                      href="/features"
                       className="text-gray-300 hover:text-white transition-colors cursor-pointer text-lg"
                     >
                       Features
@@ -55,10 +55,10 @@ export default function Header() {
                   </SheetClose>
                   <SheetClose asChild>
                     <Link
-                      href="/#insights"
+                      href="/about"
                       className="text-gray-300 hover:text-white transition-colors cursor-pointer text-lg"
                     >
-                      Insights
+                      About
                     </Link>
                   </SheetClose>
                   <SheetClose asChild>

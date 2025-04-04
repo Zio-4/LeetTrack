@@ -1,7 +1,6 @@
 // Database configuration
 import { openDB, DBSchema, IDBPDatabase, deleteDB } from 'idb';
 
-// Import IDBValidKey from the DOM lib
 type IDBValidKey = string | number | Date | ArrayBufferView | ArrayBuffer | IDBValidKey[];
 
 const DB_NAME = 'leetTrackDB';

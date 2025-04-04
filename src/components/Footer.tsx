@@ -15,9 +15,6 @@ export default function Footer() {
             <Link href="#" className="text-gray-400 hover:text-white transition-colors cursor-pointer">
               Privacy
             </Link>
-            <Link href="#" className="text-gray-400 hover:text-white transition-colors cursor-pointer">
-              Terms
-            </Link>
             <Link href="https://github.com/Zio-4/LeetTrack" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors cursor-pointer">
               GitHub
             </Link>

@@ -3,28 +3,33 @@
 import { useState, useEffect } from "react"
 import { getFromStore, getAllFromStore, OBJECT_STORES } from "@/lib/db"
 import { UserProfile, RecentSubmission } from "@/types/leetcode"
+import { useRouter } from "next/navigation"
 
 export default function Dashboard() {
   const [userData, setUserData] = useState<UserProfile | null>(null)
   const [recentSubmissions, setRecentSubmissions] = useState<RecentSubmission[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isRedirecting, setIsRedirecting] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const fetchUserData = async () => {
+      const userJson = localStorage.getItem("leetTrackUser")
+
+      if (!userJson) {
+        setIsRedirecting(true)
+        router.push("/sign-in")
+        return
+      }
+
+      setLoading(true)
+      setError(null)
+      setIsRedirecting(false)
+
       try {
-        // Get basic user info from localStorage to get the username
-        const userJson = localStorage.getItem("leetTrackUser")
-        
-        if (!userJson) {
-          setError("User not found. Please sign in.")
-          setLoading(false)
-          return
-        }
-        
         const basicUserData = JSON.parse(userJson)
         
-        // Fetch complete user profile data from IndexedDB
         const userProfile = await getFromStore<UserProfile>(
           OBJECT_STORES.USER_PROFILE, 
           basicUserData.username
@@ -33,9 +38,7 @@ export default function Dashboard() {
         if (userProfile) {
           setUserData(userProfile)
           
-          // Try to fetch recent submissions from the dedicated store
           try {
-            // Get all submissions and filter by this user
             const allSubmissions = await getAllFromStore<RecentSubmission>(OBJECT_STORES.RECENT_SUBMISSIONS)
             const userSubmissions = allSubmissions
               .filter(sub => sub.username === basicUserData.username)
@@ -45,18 +48,16 @@ export default function Dashboard() {
             if (userSubmissions.length > 0) {
               setRecentSubmissions(userSubmissions)
             } else if (userProfile.recentSubmissionList) {
-              // Fall back to submissions in the user profile
               setRecentSubmissions(userProfile.recentSubmissionList)
             }
           } catch (submissionError) {
             console.error("Error fetching recent submissions:", submissionError)
-            // Fallback to submissions in the user profile
             if (userProfile.recentSubmissionList) {
               setRecentSubmissions(userProfile.recentSubmissionList)
             }
           }
         } else {
-          // Fallback to basic data if IndexedDB data is not available
+          console.warn("User profile not found in IndexedDB, falling back to basic data.")
           setUserData(basicUserData as UserProfile)
         }
       } catch (err) {
@@ -68,7 +69,15 @@ export default function Dashboard() {
     }
 
     fetchUserData()
-  }, [])
+  }, [router])
+  
+  if (isRedirecting) {
+    return <div className="flex justify-center items-center h-screen bg-black">
+      <div className="bg-[#101828] p-6 rounded-lg">
+        <p className="text-[#D1D5DC]">User not found. Redirecting to sign-in...</p>
+      </div>
+    </div>
+  }
   
   if (loading) {
     return <div className="flex justify-center items-center h-screen bg-black">
@@ -89,7 +98,7 @@ export default function Dashboard() {
   if (!userData) {
     return <div className="flex justify-center items-center h-screen bg-black">
       <div className="bg-[#101828] p-6 rounded-lg">
-        <p className="text-[#D1D5DC]">No user data found. Please sign in.</p>
+        <p className="text-[#D1D5DC]">An unexpected issue occurred. Please try refreshing or signing in again.</p>
       </div>
     </div>
   }

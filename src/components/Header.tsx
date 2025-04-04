@@ -1,7 +1,7 @@
-// src/components/layout/Header.tsx
-import Link from "next/link";
-import { Code2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import Link from "next/link"
+import { Code2, Menu, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 
 export default function Header() {
   return (
@@ -24,10 +24,55 @@ export default function Header() {
             <Button className="bg-amber-500 hover:bg-amber-600 text-black">Get Started</Button>
           </Link>
         </nav>
-        <Button variant="outline" className="md:hidden border-amber-500 text-amber-500 hover:bg-amber-500/10 cursor-pointer">
-          Menu
-        </Button>
+        <div className="md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="border-amber-500 bg-amber-500  text-black hover:bg-amber-600 hover:border-amber-600 cursor-pointer"
+              >
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="bg-black text-white border-l border-gray-800 p-6">
+              <div className="flex flex-col h-full">
+                <SheetHeader className="flex justify-between items-center border-b border-gray-800 pb-4 mb-4">
+                  <SheetTitle className="text-left text-amber-500 flex items-center gap-2">
+                    <Code2 className="h-6 w-6" />
+                    <span>LeetTrack</span>
+                  </SheetTitle>
+                </SheetHeader>
+                <nav className="grid gap-6 py-6">
+                  <SheetClose asChild>
+                    <Link
+                      href="/#features"
+                      className="text-gray-300 hover:text-white transition-colors cursor-pointer text-lg"
+                    >
+                      Features
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link
+                      href="/#insights"
+                      className="text-gray-300 hover:text-white transition-colors cursor-pointer text-lg"
+                    >
+                      Insights
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link href="/sign-in" className="cursor-pointer mt-4">
+                      <Button className="w-full bg-amber-500 hover:bg-amber-600 text-black">Get Started</Button>
+                    </Link>
+                  </SheetClose>
+                </nav>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
-  );
+  )
 }
+

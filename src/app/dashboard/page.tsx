@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { getFromStore, getAllFromStore, OBJECT_STORES } from "@/lib/db"
 import { UserProfile, RecentSubmission } from "@/types/leetcode"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export default function Dashboard() {
   const [userData, setUserData] = useState<UserProfile | null>(null)
@@ -128,7 +129,7 @@ export default function Dashboard() {
           </div>
           
           <div className="bg-[#101828] p-4 rounded-lg">
-            <h2 className="text-xl font-semibold mb-2 text-[#FD9A00]">Solved Problems</h2>
+            <h2 className="text-xl font-semibold mb-2 text-[#FD9A00]">Problems by Difficulty</h2>
             {userData.allQuestionsCount?.map((item) => (
               <div key={item.difficulty} className="flex justify-between mb-2">
                 <span>{item.difficulty}</span>
@@ -165,7 +166,11 @@ export default function Dashboard() {
               <tbody>
                 {recentSubmissions.map((submission, index) => (
                   <tr key={index} className="border-t border-gray-700">
-                    <td className="py-2">{submission.title}</td>
+                    <td className="py-2">
+                      <Link href={`/problem/${submission.titleSlug}`} className="hover:text-[#FD9A00] hover:underline">
+                        {submission.title}
+                      </Link>
+                    </td>
                     <td className="py-2">
                       <span className={submission.statusDisplay === "Accepted" ? "text-green-500" : "text-red-500"}>
                         {submission.statusDisplay}

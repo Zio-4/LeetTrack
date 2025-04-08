@@ -19,13 +19,8 @@ async function getProblemData(slug: string): Promise<Problem | null> {
   }
 }
 
-interface ProblemPageProps {
-  params: {
-    slug: string
-  }
-}
-
-export default async function ProblemPage({ params }: ProblemPageProps) {
+// Throws error if you try to type it. Has to match PageProps?
+export default async function ProblemPage({ params }: any) {
   const problemData = await getProblemData(params.slug)
 
   if (!problemData) {

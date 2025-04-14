@@ -3,7 +3,7 @@
 import { LeetCode, Credential } from "leetcode-query";
 
 export type SignInResult = 
-  | { success: true; username: string; userData: any }
+  | { success: true; username: string; userData: any; allSubmissions: any[] }
   | { success: false; error: string };
 
 export async function signIn(
@@ -32,6 +32,8 @@ export async function signIn(
     
     // Search for the user
     const userData = await leetcode.user(username);
+
+    const submissions = await leetcode.submissions({limit: Infinity})
     
     if (!userData.matchedUser) {
       return { 
@@ -44,7 +46,8 @@ export async function signIn(
     return { 
       success: true, 
       username,
-      userData 
+      userData,
+      allSubmissions: submissions || []
     };
   } catch (error) {
     console.error("Authentication error:", error);

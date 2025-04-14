@@ -126,6 +126,7 @@ export interface DailyChallenge {
 // User Submissions
 export interface UserSubmission {
   id: string;
+  username?: string;
   titleSlug: string;
   title: string;
   timestamp: string;

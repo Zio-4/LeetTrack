@@ -70,21 +70,6 @@ export default function SignIn() {
           }
         }
         
-        // Store all submissions if available
-        if (result.allSubmissions?.length) {
-          for (const submission of result.allSubmissions) {
-            // Assuming each submission has a unique 'id'
-            if (submission.id) {
-              await updateStore(OBJECT_STORES.USER_SUBMISSIONS, {
-                ...submission,
-                username: result.username // Add username for potential filtering later
-              });
-            } else {
-              console.warn('Submission missing ID, cannot store:', submission);
-            }
-          }
-        }
-        
         // Navigate to dashboard
         router.push("/dashboard")
       } else {

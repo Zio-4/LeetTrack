@@ -5,10 +5,11 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import DOMPurify from "isomorphic-dompurify"
 import Link from "next/link"
+import { getLeetCodeClient } from '@/lib/leetcode-client'
 
 async function getProblemData(slug: string): Promise<Problem | null> {
   try {
-    const leetcode = new LeetCode()
+    const leetcode = getLeetCodeClient()
     const problemData = await leetcode.problem(slug)
 
     console.log(problemData)

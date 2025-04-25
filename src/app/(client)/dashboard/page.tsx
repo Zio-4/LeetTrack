@@ -9,22 +9,12 @@ import { Badge } from '@/components/ui/badge'
 import { Clock } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { getUserSubmissions } from "./actions"
+import { AcceptanceRateCard } from "@/components/dashboard/acceptance-rate-card"
 
-// Define interface for acceptance rate data
-interface AcceptanceRateData {
-  rate: number | null;
-  acceptedCount: number;
-  totalCount: number;
-}
 
 export default function Dashboard() {
   const [userData, setUserData] = useState<UserProfile | null>(null)
   const [recentSubmissions, setRecentSubmissions] = useState<UserSubmission[]>([])
-  const [acceptanceRateData, setAcceptanceRateData] = useState<AcceptanceRateData>({
-    rate: null,
-    acceptedCount: 0,
-    totalCount: 0
-  });
   const [profileLoading, setProfileLoading] = useState(true)
   const [profileError, setProfileError] = useState<string | null>(null)
   const [isRedirecting, setIsRedirecting] = useState(false)
@@ -48,20 +38,19 @@ export default function Dashboard() {
         const parsedUser = JSON.parse(userJson)
         setBasicUserData(parsedUser);
 
-        const userProfile = await getFromStore<UserProfile>(
-          OBJECT_STORES.USER_PROFILE,
-          parsedUser.username
-        )
-
-        if (userProfile) {
-          setUserData(userProfile)
-        } else {
-          console.warn("User profile not found in IndexedDB, using basic data.")
-          setUserData(parsedUser as UserProfile)
+        // Fetch recent submissions only if username exists
+        if (parsedUser.username) {
+          // Provide default empty array if undefined
+          setRecentSubmissions(parsedUser.recentSubmissionList || []) 
         }
+
       } catch (err) {
-        console.error("Error fetching user profile data:", err)
-        setProfileError("Failed to load user profile. Please try again.")
+        console.error("Error parsing user data or fetching profile:", err)
+        setProfileError("Failed to load user data. Please try again.")
+        // Clear potentially partial data
+        setUserData(null)
+        setBasicUserData(null)
+        setRecentSubmissions([]) 
       } finally {
         setProfileLoading(false)
       }
@@ -69,45 +58,6 @@ export default function Dashboard() {
 
     fetchProfileData()
   }, [router])
-
-  const { 
-    data: allSubmissions,
-    isLoading: submissionsLoading,
-    isError: submissionsError, 
-    error: submissionErrorDetails 
-  } = useQuery<UserSubmission[], Error>({
-    queryKey: ['userSubmissions', basicUserData?.username],
-    queryFn: () => {
-      if (!basicUserData?.username) {
-        return Promise.reject(new Error("Username not available yet."));
-      }
-      return getUserSubmissions(basicUserData.username);
-    },
-    enabled: !!basicUserData?.username, 
-    staleTime: 1000 * 60 * 15,
-    retry: 1,
-  });
-
-  useEffect(() => {
-    if (allSubmissions) {
-      if (allSubmissions.length > 0) {
-        const accepted = allSubmissions.filter(sub => sub.statusDisplay === 'Accepted').length;
-        const total = allSubmissions.length;
-        setAcceptanceRateData({
-          rate: total > 0 ? Math.round((accepted / total) * 100) : 0,
-          acceptedCount: accepted,
-          totalCount: total,
-        });
-      } else {
-        setAcceptanceRateData({ rate: 0, acceptedCount: 0, totalCount: 0 });
-      }
-
-      const sortedSubmissions = [...allSubmissions]
-        .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp))
-        .slice(0, 20);
-      setRecentSubmissions(sortedSubmissions);
-    }
-  }, [allSubmissions]);
 
   if (profileLoading) {
     return <div className="flex justify-center items-center h-screen bg-black">
@@ -117,11 +67,11 @@ export default function Dashboard() {
     </div>
   }
   
-  if (profileError || submissionsError) {
+  if (profileError) {
     return <div className="flex justify-center items-center h-screen bg-black">
       <div className="bg-[#101828] p-6 rounded-lg">
         <p className="text-red-500">
-          {profileError || `Failed to load submissions: ${submissionErrorDetails?.message}`}
+          {profileError} 
         </p>
       </div>
     </div>
@@ -143,8 +93,6 @@ export default function Dashboard() {
     </div>
   }
   
-  const displaySubmissionsLoading = submissionsLoading && !allSubmissions;
-
   return (
     <div className="container mx-auto p-4 bg-black min-h-screen text-[#D1D5DC]">
       <h1 className="text-2xl font-bold mb-4 text-[#FD9A00]">Welcome, {userData.username}!</h1>
@@ -169,24 +117,10 @@ export default function Dashboard() {
             )}
           </div>
           
-          <div className="bg-[#101828] p-4 rounded-lg flex flex-col justify-between">
-            <div className="flex justify-between items-start">
-              <h2 className="text-xl font-semibold mb-2 text-[#FD9A00]">Acceptance Rate</h2>
-              <Clock className="h-5 w-5 text-[#FD9A00]" />
-            </div>
-            {displaySubmissionsLoading ? (
-              <p className="text-sm text-gray-400">Loading submission data...</p>
-            ) : acceptanceRateData.totalCount > 0 ? (
-              <div>
-                <p className="text-5xl font-bold text-white mb-1">{acceptanceRateData.rate}%</p>
-                <p className="text-sm text-gray-400">
-                  {acceptanceRateData.acceptedCount} accepted / {acceptanceRateData.totalCount} submissions
-                </p>
-              </div>
-            ) : (
-              <p className="text-sm text-gray-400">No submission data found.</p>
-            )}
-          </div>
+          {/* Pass only the username to the AcceptanceRateCard */}
+          {basicUserData?.username && (
+            <AcceptanceRateCard username={basicUserData.username} />
+          )}
           
           <div className="bg-[#101828] p-4 rounded-lg">
             <h2 className="text-xl font-semibold mb-2 text-[#FD9A00]">Solved Problems</h2>
@@ -202,9 +136,7 @@ export default function Dashboard() {
       
       <div className="bg-[#101828] p-4 rounded-lg">
         <h2 className="text-xl font-semibold mb-4 text-[#FD9A00]">Recent Submissions</h2>
-        {displaySubmissionsLoading ? (
-          <p className="text-sm text-gray-400">Loading recent submissions...</p>
-        ) : recentSubmissions.length > 0 ? (
+        {recentSubmissions.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>

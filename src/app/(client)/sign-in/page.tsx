@@ -10,6 +10,7 @@ import { signIn } from "./actions"
 import { updateStore, OBJECT_STORES } from "@/lib/db"
 import { UserProfile } from "@/types/leetcode"
 
+
 export default function SignIn() {
   const [username, setUsername] = useState("")
   const [sessionCookie, setSessionCookie] = useState("")
@@ -58,17 +59,6 @@ export default function SignIn() {
         
         // Store the user profile in IndexedDB
         await updateStore(OBJECT_STORES.USER_PROFILE, userProfile)
-        
-        // If there are recent submissions, store them separately
-        if (result.userData?.recentSubmissionList?.length) {
-          // Store each submission with a reference to the user
-          for (const submission of result.userData.recentSubmissionList) {
-            await updateStore(OBJECT_STORES.RECENT_SUBMISSIONS, {
-              ...submission,
-              username: result.username
-            })
-          }
-        }
         
         // Navigate to dashboard
         router.push("/dashboard")

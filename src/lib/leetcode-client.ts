@@ -19,6 +19,7 @@ export async function initializeLeetCodeClient(sessionCookie?: string): Promise<
 		console.log('Initializing LeetCode client for anonymous access.')
 		leetcodeInstance = new LeetCode()
 	}
+
 	return leetcodeInstance
 }
 
@@ -29,16 +30,18 @@ export async function initializeLeetCodeClient(sessionCookie?: string): Promise<
  * @returns The LeetCode instance.
  * @throws {Error} If the client fails to initialize.
  */
-export function getLeetCodeClient(): LeetCode {
+export async function getLeetCodeClient(sessionCookie?: string): Promise<LeetCode> {
 	if (!leetcodeInstance) {
 		console.log('LeetCode client not initialized. Initializing for anonymous access.')
-		// Initialize anonymous client by default if accessed before explicit initialization
-		leetcodeInstance = new LeetCode() 
+		if (sessionCookie && sessionCookie.trim()) {
+			const credential = new Credential()
+			await credential.init(sessionCookie)
+			leetcodeInstance = new LeetCode(credential)
+		} else {
+			leetcodeInstance = new LeetCode()
+		}
 	}
-    if (!leetcodeInstance) {
-        // This should theoretically not happen after the above check, but added for safety.
-        throw new Error("Failed to get or initialize LeetCode client instance.")
-    }
+
 	return leetcodeInstance
 }
 

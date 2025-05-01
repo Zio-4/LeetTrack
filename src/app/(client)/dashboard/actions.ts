@@ -42,7 +42,7 @@ function formatMemory(memoryBytes: number | null): string {
 }
 
 
-export async function getUserSubmissions(username: string): Promise<UserSubmission[]> {
+export async function getUserSubmissions(username: string, sessionCookie?: string): Promise<UserSubmission[]> {
   if (!username) {
     // Although username isn't used in the API call shown, 
     // keeping the check as it might be relevant for context or future use.
@@ -52,7 +52,8 @@ export async function getUserSubmissions(username: string): Promise<UserSubmissi
   console.log(`Fetching submissions for user: ${username} via Server Action using singleton LeetCode client`);
   try {
     // Get the singleton instance of the LeetCode client
-    const leetcode = getLeetCodeClient();
+
+    const leetcode = await getLeetCodeClient(sessionCookie);
 
     const apiSubmissions: Submission[] = await leetcode.submissions({ 
       limit: 10000, // Fetch a large number to get all submissions
@@ -64,7 +65,7 @@ export async function getUserSubmissions(username: string): Promise<UserSubmissi
        throw new Error("Received invalid data format for submissions.");
     }
 
-    console.log(`Fetched submissions:`, apiSubmissions);
+    console.log(`Fetched submissions:`, apiSubmissions.slice(0, 5));
     // Map the raw API response to the UserSubmission type directly
     const userSubmissions: UserSubmission[] = apiSubmissions.map((sub: Submission) => {
       // Defensive checks for potentially null/undefined values from API

@@ -96,3 +96,85 @@ export async function getUserSubmissions(username: string, sessionCookie?: strin
     throw new Error(`Failed to fetch submissions for ${username}: ${errorMessage}`);
   }
 } 
+
+// Interface for problems solved data point
+export interface ProblemsSolvedDataPoint {
+  date: string;  // Date in YYYY-MM-DD format
+  count: number; // Number of problems solved on that date
+}
+
+/**
+ * Gets the number of accepted submissions grouped by day for a specific time period
+ */
+export async function getProblemsOverTime(
+  username: string, 
+  days: number = 30, 
+  sessionCookie?: string
+): Promise<ProblemsSolvedDataPoint[]> {
+  if (!username) {
+    throw new Error("Username is required");
+  }
+
+  console.log(`Fetching problems solved over time for user: ${username}, period: ${days} days`);
+  
+  try {
+    // 1. Get all submissions for the user
+    const allSubmissions = await getUserSubmissions(username, sessionCookie);
+    
+    // 2. Filter for only accepted submissions
+    const acceptedSubmissions = allSubmissions.filter(
+      submission => submission.statusDisplay.toLowerCase() === 'accepted'
+    );
+    
+    // 3. Calculate the start date (X days ago from today)
+    const today = new Date();
+    const startDate = new Date();
+    startDate.setDate(today.getDate() - days);
+    
+    // 4. Filter submissions by date range
+    const filteredSubmissions = acceptedSubmissions.filter(submission => {
+      const submissionDate = new Date(parseInt(submission.timestamp) * 1000);
+      return submissionDate >= startDate && submissionDate <= today;
+    });
+
+    // 5. Group submissions by day (using a Map for unique problems per day)
+    const problemsByDay = new Map<string, Set<string>>();
+    
+    // Initialize all dates in the range with empty sets
+    for (let d = new Date(startDate); d <= today; d.setDate(d.getDate() + 1)) {
+      const dateStr = d.toISOString().split('T')[0]; // YYYY-MM-DD format
+      problemsByDay.set(dateStr, new Set());
+    }
+    
+    // Add problems to their respective days
+    filteredSubmissions.forEach(submission => {
+      const date = new Date(parseInt(submission.timestamp) * 1000);
+      const dateStr = date.toISOString().split('T')[0];
+      
+      // Only count unique problems (by titleSlug)
+      if (problemsByDay.has(dateStr)) {
+        problemsByDay.get(dateStr)?.add(submission.titleSlug);
+      }
+    });
+    
+    // 6. Convert to array of data points with running total
+    let runningTotal = 0;
+    const dataPoints: ProblemsSolvedDataPoint[] = Array.from(problemsByDay.entries())
+      .sort(([dateA], [dateB]) => dateA.localeCompare(dateB))
+      .map(([date, problems]) => {
+        // Add new problems to running total
+        runningTotal += problems.size;
+        return {
+          date,
+          count: runningTotal
+        };
+      });
+    
+    console.log(`Generated ${dataPoints.length} data points for problems solved over time`);
+    return dataPoints;
+  } catch (error) {
+    console.error(`Error fetching problems over time for ${username}:`, error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to fetch problems over time for ${username}: ${errorMessage}`);
+  }
+} 

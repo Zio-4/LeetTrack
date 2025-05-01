@@ -2,46 +2,45 @@
 
 import { useState, useEffect } from "react"
 import { getFromStore, OBJECT_STORES } from "@/lib/db"
-import { UserProfile, UserSubmission } from "@/types/leetcode"
+import { UserProfile, UserSubmission, RecentSubmission } from "@/types/leetcode"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Badge } from '@/components/ui/badge'
-import { Clock } from "lucide-react"
-import { useQuery } from "@tanstack/react-query"
-import { getUserSubmissions } from "./actions"
 import { AcceptanceRateCard } from "@/components/dashboard/acceptance-rate-card"
 
 
 export default function Dashboard() {
   const [userData, setUserData] = useState<UserProfile | null>(null)
-  const [recentSubmissions, setRecentSubmissions] = useState<UserSubmission[]>([])
+  const [recentSubmissions, setRecentSubmissions] = useState<RecentSubmission[]>([])
   const [profileLoading, setProfileLoading] = useState(true)
   const [profileError, setProfileError] = useState<string | null>(null)
   const [isRedirecting, setIsRedirecting] = useState(false)
   const router = useRouter()
-  const [basicUserData, setBasicUserData] = useState<{ username: string } | null>(null);
 
   useEffect(() => {
     const fetchProfileData = async () => {
       const userJson = localStorage.getItem("leetTrackUser")
       if (!userJson) {
-        setIsRedirecting(true)
-        router.push("/sign-in")
-        return
+        setIsRedirecting(true);
+        router.push("/sign-in");
+        return;
       }
+      const parsedUser = JSON.parse(userJson)
 
       setProfileLoading(true)
       setProfileError(null)
       setIsRedirecting(false)
 
       try {
-        const parsedUser = JSON.parse(userJson)
-        setBasicUserData(parsedUser);
+        const userFromStore = await getFromStore(OBJECT_STORES.USER_PROFILE, parsedUser.username) as UserProfile
+        console.log("userFromStore: ", userFromStore)
+        console.log(userFromStore)
+        setUserData(userFromStore as UserProfile)
 
         // Fetch recent submissions only if username exists
-        if (parsedUser.username) {
+        if (userFromStore.username) {
           // Provide default empty array if undefined
-          setRecentSubmissions(parsedUser.recentSubmissionList || []) 
+          setRecentSubmissions(userFromStore.recentSubmissionList || []) 
         }
 
       } catch (err) {
@@ -49,7 +48,6 @@ export default function Dashboard() {
         setProfileError("Failed to load user data. Please try again.")
         // Clear potentially partial data
         setUserData(null)
-        setBasicUserData(null)
         setRecentSubmissions([]) 
       } finally {
         setProfileLoading(false)
@@ -118,8 +116,8 @@ export default function Dashboard() {
           </div>
           
           {/* Pass only the username to the AcceptanceRateCard */}
-          {basicUserData?.username && (
-            <AcceptanceRateCard username={basicUserData.username} />
+          {userData.username && (
+            <AcceptanceRateCard username={userData.username} />
           )}
           
           <div className="bg-[#101828] p-4 rounded-lg">
@@ -180,11 +178,13 @@ export default function Dashboard() {
 
 // Helper function for status badge styling
 const getStatusBadgeClasses = (status: string = '') => {
-  switch (status.toLowerCase()) {
-    case 'accepted': return 'bg-green-900 text-green-300 border-green-700'
-    // Add other statuses as needed, e.g., 'wrong answer'
-    case 'wrong answer': return 'bg-red-900 text-red-300 border-red-700' 
-    default: return 'bg-gray-700 text-gray-300 border-gray-500'
+  const statusLower = status.toLowerCase();
+  if (statusLower === 'accepted') {
+    return 'bg-green-900 text-green-300 border-green-700';
+  } else if (statusLower === 'wrong answer') {
+    return 'bg-red-900 text-red-300 border-red-700';
+  } else {
+    return 'bg-orange-900 text-orange-300 border-orange-700';
   }
 }
 

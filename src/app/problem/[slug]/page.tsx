@@ -9,7 +9,8 @@ import { getLeetCodeClient } from '@/lib/leetcode-client'
 
 async function getProblemData(slug: string): Promise<Problem | null> {
   try {
-    const leetcode = getLeetCodeClient()
+    const leetcode = await getLeetCodeClient()
+    // @ts-ignore
     const problemData = await leetcode.problem(slug)
 
     console.log(problemData)

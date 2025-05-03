@@ -8,11 +8,12 @@ import Link from "next/link"
 import { Badge } from '@/components/ui/badge'
 import { AcceptanceRateCard } from "@/components/dashboard/acceptance-rate-card"
 import { ProblemsOverTimeCard } from "@/components/dashboard/problems-over-time-card"
+import { RecentSubmission } from "@/types/leetcode"
 
 
 export default function Dashboard() {
   const [userData, setUserData] = useState<UserProfile | null>(null)
-  const [recentSubmissions, setRecentSubmissions] = useState<UserSubmission[]>([])
+  const [recentSubmissions, setRecentSubmissions] = useState<RecentSubmission[]>([])
   const [profileLoading, setProfileLoading] = useState(true)
   const [profileError, setProfileError] = useState<string | null>(null)
   const [isRedirecting, setIsRedirecting] = useState(false)
@@ -34,12 +35,29 @@ export default function Dashboard() {
       try {
         const parsedUser = JSON.parse(userJson)
         console.log('parsedUser: ', parsedUser)
-        setUserData(parsedUser);
 
-        // Fetch recent submissions only if username exists
-        if (parsedUser.username) {
-          // Provide default empty array if undefined
-          setRecentSubmissions(parsedUser.recentSubmissionList || []) 
+        // get user from store which has the leetcode-query data
+        const user = await getFromStore<UserProfile>(OBJECT_STORES.USER_PROFILE, parsedUser.username)
+        
+        // Handle case where user might not be found in the store
+        if (!user) {
+          setProfileError("User profile not found in local storage. Please sign in again.")
+          setProfileLoading(false)
+          // Optionally clear localStorage and redirect
+          // localStorage.removeItem("leetTrackUser");
+          // router.push("/sign-in");
+          return;
+        }
+
+        console.log('user: ', user)
+        setUserData(user);
+
+        // Fetch recent submissions only if username exists and list is available
+        if (user.username && user.recentSubmissionList) {
+          // Provide default empty array if undefined (already handled by the check above)
+          setRecentSubmissions(user.recentSubmissionList) 
+        } else {
+          setRecentSubmissions([]) // Ensure it's an empty array if no submissions
         }
 
       } catch (err) {

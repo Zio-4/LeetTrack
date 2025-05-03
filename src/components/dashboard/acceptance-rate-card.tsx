@@ -30,7 +30,7 @@ export function AcceptanceRateCard({ username }: AcceptanceRateCardProps) {
 		isError,
 		error,
 	} = useQuery<UserSubmission[], Error>({
-		queryKey: ['userSubmissions', username, 'acceptanceRate'],
+		queryKey: ['allSubmissions', username],
 		queryFn: () => {
 			if (!username) {
 				return Promise.reject(new Error("Username not provided."))

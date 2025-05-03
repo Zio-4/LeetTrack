@@ -52,7 +52,6 @@ export async function getUserSubmissions(username: string, sessionCookie?: strin
   console.log(`Fetching submissions for user: ${username} via Server Action using singleton LeetCode client`);
   try {
     // Get the singleton instance of the LeetCode client
-
     const leetcode = await getLeetCodeClient(sessionCookie);
 
     const apiSubmissions: Submission[] = await leetcode.submissions({ 
@@ -75,15 +74,15 @@ export async function getUserSubmissions(username: string, sessionCookie?: strin
       const safeStatus = sub.statusDisplay ?? 'N/A';
       
       return {
-        id: String(sub.id), // Convert number ID to string
+        id: String(sub.id),
         title: safeTitle,
         titleSlug: safeTitleSlug,
-        timestamp: String(sub.timestamp), // Convert number timestamp to string
+        timestamp: String(sub.timestamp),
         statusDisplay: safeStatus,
         lang: safeLang,
-        runtime: formatRuntime(sub.runtime), // Format runtime
-        memory: formatMemory(sub.memory), // Format memory
-        username: username, // Add the username from the function argument
+        runtime: formatRuntime(sub.runtime),
+        memory: formatMemory(sub.memory), 
+        username: username, 
       };
     });
     

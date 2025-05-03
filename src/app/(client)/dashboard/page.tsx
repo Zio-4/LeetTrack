@@ -6,20 +6,18 @@ import { UserProfile, UserSubmission } from "@/types/leetcode"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Badge } from '@/components/ui/badge'
-import { Clock } from "lucide-react"
-import { useQuery } from "@tanstack/react-query"
-import { getUserSubmissions } from "./actions"
 import { AcceptanceRateCard } from "@/components/dashboard/acceptance-rate-card"
+import { ProblemsOverTimeCard } from "@/components/dashboard/problems-over-time-card"
+import { RecentSubmission } from "@/types/leetcode"
 
 
 export default function Dashboard() {
   const [userData, setUserData] = useState<UserProfile | null>(null)
-  const [recentSubmissions, setRecentSubmissions] = useState<UserSubmission[]>([])
+  const [recentSubmissions, setRecentSubmissions] = useState<RecentSubmission[]>([])
   const [profileLoading, setProfileLoading] = useState(true)
   const [profileError, setProfileError] = useState<string | null>(null)
   const [isRedirecting, setIsRedirecting] = useState(false)
   const router = useRouter()
-  const [basicUserData, setBasicUserData] = useState<{ username: string } | null>(null);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -36,12 +34,29 @@ export default function Dashboard() {
 
       try {
         const parsedUser = JSON.parse(userJson)
-        setBasicUserData(parsedUser);
 
-        // Fetch recent submissions only if username exists
-        if (parsedUser.username) {
-          // Provide default empty array if undefined
-          setRecentSubmissions(parsedUser.recentSubmissionList || []) 
+        // get user from store which has the leetcode-query data
+        const user = await getFromStore<UserProfile>(OBJECT_STORES.USER_PROFILE, parsedUser.username)
+        
+        // Handle case where user might not be found in the store
+        if (!user) {
+          setProfileError("User profile not found in local storage. Please sign in again.")
+          setProfileLoading(false)
+          // Optionally clear localStorage and redirect
+          // localStorage.removeItem("leetTrackUser");
+          // router.push("/sign-in");
+          return;
+        }
+
+        console.log('user: ', user)
+        setUserData(user);
+
+        // Fetch recent submissions only if username exists and list is available
+        if (user.username && user.recentSubmissionList) {
+          // Provide default empty array if undefined (already handled by the check above)
+          setRecentSubmissions(user.recentSubmissionList) 
+        } else {
+          setRecentSubmissions([]) // Ensure it's an empty array if no submissions
         }
 
       } catch (err) {
@@ -49,7 +64,6 @@ export default function Dashboard() {
         setProfileError("Failed to load user data. Please try again.")
         // Clear potentially partial data
         setUserData(null)
-        setBasicUserData(null)
         setRecentSubmissions([]) 
       } finally {
         setProfileLoading(false)
@@ -114,12 +128,11 @@ export default function Dashboard() {
             </div>
             {userData.matchedUser.profile.aboutMe && (
               <p className="text-sm text-[#D1D5DC] break-words">{userData.matchedUser.profile.aboutMe}</p>
-            )}
+              )}
           </div>
           
-          {/* Pass only the username to the AcceptanceRateCard */}
-          {basicUserData?.username && (
-            <AcceptanceRateCard username={basicUserData.username} />
+          {userData?.username && (
+            <AcceptanceRateCard username={userData.username} />
           )}
           
           <div className="bg-[#101828] p-4 rounded-lg">
@@ -131,6 +144,12 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {userData?.username && (
+        <div className="mb-6">
+          <ProblemsOverTimeCard username={userData.username} />
         </div>
       )}
       

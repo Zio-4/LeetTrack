@@ -34,7 +34,6 @@ export default function Dashboard() {
 
       try {
         const parsedUser = JSON.parse(userJson)
-        console.log('parsedUser: ', parsedUser)
 
         // get user from store which has the leetcode-query data
         const user = await getFromStore<UserProfile>(OBJECT_STORES.USER_PROFILE, parsedUser.username)
@@ -132,7 +131,6 @@ export default function Dashboard() {
               )}
           </div>
           
-          {/* Pass only the username to the AcceptanceRateCard */}
           {userData?.username && (
             <AcceptanceRateCard username={userData.username} />
           )}
@@ -148,8 +146,7 @@ export default function Dashboard() {
           </div>
         </div>
       )}
-      
-      {/* Problems Solved Over Time Chart */}
+
       {userData?.username && (
         <div className="mb-6">
           <ProblemsOverTimeCard username={userData.username} />

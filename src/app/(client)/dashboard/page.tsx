@@ -33,6 +33,7 @@ export default function Dashboard() {
 
       try {
         const parsedUser = JSON.parse(userJson)
+        console.log('parsedUser: ', parsedUser)
         setUserData(parsedUser);
 
         // Fetch recent submissions only if username exists
@@ -110,7 +111,7 @@ export default function Dashboard() {
             </div>
             {userData.matchedUser.profile.aboutMe && (
               <p className="text-sm text-[#D1D5DC] break-words">{userData.matchedUser.profile.aboutMe}</p>
-            )}
+              )}
           </div>
           
           {/* Pass only the username to the AcceptanceRateCard */}

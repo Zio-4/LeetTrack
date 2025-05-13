@@ -20,7 +20,6 @@ export default function Header() {
     }
   }, [pathname])
 
-  // Function to handle sign out
   const handleSignOut = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('leetTrackUser')
@@ -39,7 +38,7 @@ export default function Header() {
           </Link>
         </div>  
         {isAuthenticated ? 
-          <button onClick={handleSignOut} className="text-black bg-amber-500 hover:bg-amber-600 p-2 rounded-md transition-colors cursor-pointer">Sign Out</button> :
+          <button onClick={handleSignOut} className="hidden md:block text-black bg-amber-500 hover:bg-amber-600 p-2 rounded-md transition-colors cursor-pointer">Sign Out</button> :
           (<nav className="hidden md:flex items-center gap-6">
             <Link href="/features" className="text-gray-300 hover:text-white transition-colors cursor-pointer">
               Features
@@ -92,19 +91,22 @@ export default function Header() {
                   {isAuthenticated ? (
                     <>
                       <SheetClose asChild>
-                        <Link href="/dashboard" className="cursor-pointer">
-                          <Button className="bg-amber-500 hover:bg-amber-600 text-black">Dashboard</Button>
+                        <Link 
+                          href="/dashboard" 
+                          className="text-gray-300 hover:text-white transition-colors cursor-pointer text-lg"
+                        >
+                          Dashboard
                         </Link>
                       </SheetClose>
                       <SheetClose asChild>
-                        <Button onClick={handleSignOut} variant="outline" className="border-amber-500 text-amber-500 hover:bg-gray-800 hover:text-amber-400">
+                        <Button onClick={handleSignOut} variant="outline" className="border-amber-500 hover:border-amber-600 text-black bg-amber-500 hover:bg-amber-600 hover:text-white">
                           Sign Out
                         </Button>
                       </SheetClose>
                     </>
                   ) : (
                     <SheetClose asChild>
-                      <Link href="/sign-in" className="cursor-pointer mt-4">
+                      <Link href="/sign-in" className="cursor-pointer">
                         <Button className="w-full bg-amber-500 hover:bg-amber-600 text-black">Get Started</Button>
                       </Link>
                     </SheetClose>

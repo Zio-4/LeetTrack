@@ -140,7 +140,7 @@ export default function Dashboard() {
             {userData.matchedUser.submitStats.acSubmissionNum.map((item) => (
               <div key={item.difficulty} className="flex justify-between mb-2">
                 <span>{item.difficulty}</span>
-                <span className="font-medium">{item.count} solved</span>
+                <span className="font-medium">{item.count}</span>
               </div>
             ))}
           </div>
